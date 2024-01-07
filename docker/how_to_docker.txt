@@ -1,0 +1,1 @@
+host.docker.internal -  use to cumminicate inside container in one network or the container_name using docker compose.

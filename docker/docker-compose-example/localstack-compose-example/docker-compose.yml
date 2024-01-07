@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  sqs:
+    image: localstack/localstack
+    container_name: "sqs-$FULL_BUILD_VERSION"
+    environment:
+      - SERVICES=sqs
+      - AWS_ACCESS_KEY_ID=fake
+      - AWS_SECRET_ACCESS_KEY=fake
+      - DEFAULT_REGION=us-west-2
+    healthcheck:
+      test: "bash -c 'awslocal sqs list-queues --endpoint-url=http://localhost:4566'"
+      interval: 10s
+
+  create-sqs-queue:
+    image: amazon/aws-cli
+    container_name: "create-sqs-queue-$FULL_BUILD_VERSION"
+    environment:
+      - AWS_ACCESS_KEY_ID=fake
+      - AWS_SECRET_ACCESS_KEY=fake
+    depends_on:
+      sqs:
+        condition: service_healthy
+    entrypoint: [""]
+    command: >
+      bash -c "aws sqs create-queue --queue-name jobqueue --endpoint-url=http://sqs:4566 --region us-west-2
+      && aws sqs create-queue --queue-name notificationsqueue --endpoint-url=http://sqs:4566 --region us-west-2"

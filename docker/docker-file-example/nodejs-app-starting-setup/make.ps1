@@ -1,0 +1,2 @@
+docker build -t my-node-js-server ./app
+docker run -p 8888:80 my-node-js-server

@@ -1,0 +1,15 @@
+docker-compose up
+
+Take Passwords From compose file.
+
+Every Postgress Server has default user admin `postgres`:
+UserName: postgres
+Configured (in docker-compose.yaml file) Password: postgres
+
+Every MS SQL Server has default user admin `sa` (system admin)
+UserName: sa
+Configured (in docker-compose.yaml) Password: 1My_password
+
+
+Example of request
+SELECT CurrencyCode, Name, ModifiedDate FROM AdventureWorks.Sales.Currency;
